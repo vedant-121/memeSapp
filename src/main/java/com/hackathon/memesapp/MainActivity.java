@@ -43,6 +43,9 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
 
+
+    Button share;
+    public String link;
     private FirebaseAuth mAuth;
     private FirebaseUser mCurrentUser;
 
@@ -55,6 +58,8 @@ public class MainActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUser = mAuth.getCurrentUser();
+
+
 
         loadMeme();
 
@@ -113,39 +118,55 @@ public class MainActivity extends AppCompatActivity {
                         String url= null;
                         try {
                             url = response.getString("url");
+                            link = url;
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        share = (Button) findViewById(R.id.shareButton);
+                        share.setOnClickListener(new View.OnClickListener() {
+
+                            @Override
+                            public void onClick(View v){
+                                Intent myIntent = new Intent(Intent.ACTION_SEND);
+                                myIntent.setType("text/plain");
+//                                String body = "Your body here";
+//                                String sub = "Your Subject";
+//                                myIntent.putExtra(Intent.EXTRA_SUBJECT,sub);
+                                myIntent.putExtra(Intent.EXTRA_TEXT, link);
+                                startActivity(Intent.createChooser(myIntent, "Share Using"));
+
+                            }
+                        });
                         ImageView imageView = (ImageView) findViewById(R.id.memeImageView);
                         Glide.with(getApplicationContext())
                                 .load(url)
                                 .listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e,
-                                                        Object model,
-                                                        Target<Drawable> target,
-                                                        boolean isFirstResource) {
-
-                                simpleProgressBar.setVisibility(View.GONE);
-                                return false;
-
-
-                            }
-
-
                                     @Override
-                            public boolean onResourceReady(Drawable resource,
-                                                           Object model,
-                                                           Target<Drawable> target,
-                                                           DataSource dataSource,
-                                                           boolean isFirstResource) {
+                                    public boolean onLoadFailed(@Nullable GlideException e,
+                                                                Object model,
+                                                                Target<Drawable> target,
+                                                                boolean isFirstResource) {
 
-                                 simpleProgressBar.setVisibility(View.GONE);
-                                 return false;
+                                        simpleProgressBar.setVisibility(View.GONE);
+                                        return false;
 
 
                                     }
-                        }).into(imageView);
+
+
+                                    @Override
+                                    public boolean onResourceReady(Drawable resource,
+                                                                   Object model,
+                                                                   Target<Drawable> target,
+                                                                   DataSource dataSource,
+                                                                   boolean isFirstResource) {
+
+                                        simpleProgressBar.setVisibility(View.GONE);
+                                        return false;
+
+
+                                    }
+                                }).into(imageView);
                     }
                 }, new Response.ErrorListener() {
 
