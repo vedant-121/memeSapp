@@ -21,21 +21,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        mAuth = FirebaseAuth.getInstance();
-        mCurrentUser = mAuth.getCurrentUser();
-
-        mLogoutBtn = findViewById(R.id.logout_btn);
-
-        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                mAuth.signOut();
-                sendUserToLogin();
-
-            }
-        });
+//
+//        mAuth = FirebaseAuth.getInstance();
+//        mCurrentUser = mAuth.getCurrentUser();
+//
+//        mLogoutBtn = findViewById(R.id.logout_btn);
+//
+//        mLogoutBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                mAuth.signOut();
+//                sendUserToLogin();
+//
+//            }
+//        });
 
     }
 
